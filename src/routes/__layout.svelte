@@ -1,5 +1,24 @@
+<script context="module">
+	import { t, locales, locale, loadTranslations } from '$lib/translations';
+
+	export const load = async ({ url }) => {
+		const { pathname } = url;
+
+		const defaultLocale = 'en'; // get from cookie, user session, ...
+
+		const initLocale = locale.get() || defaultLocale; // set default if no locale already set
+
+		await loadTranslations(initLocale, pathname); // keep this just before the `return`
+
+		return {};
+	};
+</script>
+
 <script lang="ts">
 	import Header from '$lib/header/Header.svelte';
+
+	const link = 'https://kit.svelte.dev';
+
 	import '../app.css';
 </script>
 
@@ -7,10 +26,16 @@
 
 <main>
 	<slot />
+
+	<select bind:value={$locale}>
+		{#each $locales as value}
+			<option {value}>{$t(`lang.${value}`)}</option>
+		{/each}
+	</select>
 </main>
 
 <footer>
-	<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+	<p>{@html $t('common.text', { link })}</p>
 </footer>
 
 <style>

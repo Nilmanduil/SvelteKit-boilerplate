@@ -4,10 +4,12 @@
 
 <script lang="ts">
 	import Counter from '$lib/Counter.svelte';
+
+	import { t } from '$lib/translations';
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>{$t('common.title')}</title>
 </svelte:head>
 
 <section>
